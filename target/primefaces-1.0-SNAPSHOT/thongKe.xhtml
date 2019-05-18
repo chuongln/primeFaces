@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    <link href="css.css" rel="stylesheet" type="text/css" />
+
+    <title> Quản lý kho hàng</title>
+</h:head>
+<h:body>
+<div id="fixNav">
+    <ul>
+        <li><a href="index.xhtml">Trang Chủ</a></li>
+        <li><a href="Hang.xhtml">Kho Hàng</a></li>
+        <li><a href="xuatHang.xhtml">Đơn Hàng Xuất </a></li>
+        <li><a href="nhapHang.xhtml">Đơn Hàng Nhập</a></li>
+        <li><a href="thongKe.xhtml">Thống Kê Kho Hàng </a></li>
+    </ul>
+
+</div>
+<br> </br>
+    <p:dataTable id="show" var="sanPham" row="10"
+                 paginator="true"
+                 paginatorTemplate="{CurrentPageReport}  {PageLinks} {RowsPerPageDropdown}"
+                 rowsPerPageTemplate="5,10,15" paginatorPosition="bottom"
+                 value="#{searchSanPham.setList()}" emptyMessage="Không Tồn Tại Bản Ghi">
+        <p:column headerText="Mã Sản Phẩm">
+            <h:outputText value="#{sanPham.maSP}" />
+        </p:column>
+
+        <p:column headerText="Tên Sản Phẩm">
+            <h:outputText value="#{sanPham.tenSP}" />
+        </p:column>
+        <p:column headerText="Giá mỗi sản phẩm">
+            <h:outputText value="#{sanPham.gia}" />
+        </p:column>
+
+        <p:column headerText="Số Lượng">
+            <h:outputText value="#{sanPham.soLuong}" />
+        </p:column>
+        <p:column headerText="Thành tiền">
+            <h:outputText value="#{sanPham.sum}" />
+        </p:column>
+
+    </p:dataTable>
+    <p:column headerText="Tổng giá trị trong kho:">
+        <h:outputText value="Tổng giá trị trong kho: #{searchSanPham.sanPham.sumAll} VND    " />
+    </p:column>
+
+
+</h:body>
+</html>

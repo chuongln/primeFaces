@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+<h:head>
+    <title> Lịch sử nhập hàng</title>
+    <link href="css.css" rel="stylesheet" type="text/css" />
+</h:head>
+<h:body>
+    <div id="fixNav">
+        <ul>
+            <li><a href="index.xhtml">Trang Chủ</a></li>
+            <li><a href="Hang.xhtml">Kho Hàng</a></li>
+            <li><a href="xuatHang.xhtml">Đơn Hàng Xuất </a></li>
+            <li><a href="nhapHang.xhtml">Đơn Hàng Nhập</a></li>
+            <li><a href="thongKe.xhtml">Thống Kê Kho Hàng </a></li>
+        </ul>
+
+    </div>
+    <br> </br>
+    <h:form id="search1">
+        <p:panel id="panel" header="Search" style="margin-bottom:10px;">
+            <p:messages id="msg"  showDetail="true"
+                        autoUpdate="true" closable="true" />
+            <h:panelGrid columns="10" cellpadding="5">
+
+                <h:outputLabel for="txt1" value="Nhân viên phụ trách:" />
+                <p:inputText id="txt1" value="#{searchPhieuNH.a}" >
+                </p:inputText>
+                <h:outputLabel for="txt2" value="Tên Hàng:" />
+                <p:inputText id="txt2" value="#{searchPhieuNH.b}"/>
+                <h:outputLabel for="txt3" value="Đơn vị nhập hàng:" />
+                <p:inputText id="txt3" value="#{searchPhieuNH.c}"/>
+                <p:commandButton update="@([id$=show])" process="panel" actionListener="#{searchSanPham.setList()}"  value="Tìm kiếm" />
+            </h:panelGrid>
+        </p:panel>
+        <p:commandButton value="Thêm đơn hàng nhập kho" icon="pi-star"  oncomplete="PF('dlg').show()" />
+        <br> </br>
+        <p:outputLabel value="Lịch sử hàng nhập kho" />
+        <p:dataTable id="show" row="10"
+                     paginator="true"
+                     paginatorTemplate="{CurrentPageReport}  {PageLinks}  {RowsPerPageDropdown}"
+                     rowsPerPageTemplate="5,10,15" paginatorPosition="bottom"
+                     styleClass="paginated" var="phieuNH" value="#{searchPhieuNH.setList()}" emptyMessage="Không Tồn Tại Bản Ghi">
+            <p:column headerText="Mã Phiếu Nhập">
+                <h:outputText value="#{phieuNH.maPN}" />
+            </p:column>
+            <p:column headerText="Mã Sản Phẩm">
+                <h:outputText value="#{phieuNH.maSP}" />
+            </p:column>
+            <p:column headerText="Tên Sản Phẩm">
+                <h:outputText value="#{phieuNH.tenSP}" />
+            </p:column>
+
+            <p:column headerText="Đơn vị nhập hàng ">
+                <h:outputText value="#{phieuNH.nguoiNhap}" />
+            </p:column>
+
+            <p:column headerText="Ngày nhập kho">
+                <h:outputText value="#{phieuNH.ngayNhap}" />
+            </p:column>
+
+            <p:column headerText="Số lượng">
+                <h:outputText value="#{phieuNH.soLuong}" />
+            </p:column>
+            <p:column headerText="Nhân viên phụ trách ">
+                <h:outputText value="#{phieuNH.nguoiNhan}" />
+            </p:column>
+            <!--<p:column headerText="Tuỳ Chỉnh">-->
+            <!--<p:commandButton value="Edit " process="@this" actionListener="#{editHang.updateHang(hang)}" update="SuaHang" oncomplete="PF('dlg1').show()" />-->
+
+            <!--<p:commandButton value="Xoá" process="@this"  actionListener="#{deleleHang.updateHang(hang)}" update="XoaHang" oncomplete="PF('dlg2').show()" />-->
+            <!--</p:column>-->
+
+        </p:dataTable>
+        <!--</p:dialog>-->
+        <!--<p:outputLabel id="sum" value="#{hang.sum}"/>-->
+
+
+    </h:form>
+
+    <h:form id ="ThemPNH">
+        <p:dialog  header="Thêm Đơn Hàng Nhập Mới" widgetVar="dlg"   showEffect="fold" hideEffect="fold" dynamic="true">
+            <h:panelGrid  id="display" columns="2" cellpadding="4">
+                <p:outputLabel value="Mã Sản Phẩm:" for="acSimple" />
+                <p:inputText id= "acSimple" value="#{addPNH.phieuNH.maSP}" />
+                <p:outputLabel for="basic" value="Đơn vị nhập hàng: " />
+                <p:inputText id="basic" value="#{addPNH.phieuNH.nguoiNhap}"/>
+                <p:outputLabel for="basic1" value="Nhân viên phụ trách " />
+                <p:inputText id="basic1" value="#{addPNH.phieuNH.nguoiNhan}"/>
+                <p:outputLabel for="basic2" value="Số lượng: " />
+                <p:inputText id="basic2" value="#{addPNH.phieuNH.soLuong}"/>
+                <p:commandButton value="Lưu" actionListener="#{addPNH.addPNH()}" update="@([id$=show]),@([id$=display),@([id$=msg])" onclick="PF('dlg').hide()" process="ThemPNH"  icon="pi pi-check"  />
+                <p:commandButton value="Huỷ Bỏ "  onclick="PF('dlg').hide()"/>
+            </h:panelGrid>
+        </p:dialog>
+    </h:form>
+
+</h:body>
+</html>

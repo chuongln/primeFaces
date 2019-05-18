@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+<head>
+    <!--<title>New Tab</title>-->
+</head>
+<body>
+<h:panelGrid columns="3" cellpadding="5">
+    <p:column>
+    <p:outputLabel value="Đây là một màn hình mới" />
+    </p:column>
+    <p:column>
+    <p:link outcome="index" value="Hàng"/>
+    </p:column>
+    <p:column>
+    <p:outputLabel value="#{test.test}"/>
+    </p:column>
+</h:panelGrid>
+</body>
+</html>
+
+        <!--<p:dataList value="#{searchPhieuNH.setList()}">-->
+        <!--<p:column headerText="Tổng số lượng hàng đã nhập vào:">-->
+        <!--<h:outputText value="#{searchPhieuNH.phieuNH.sumSLN}" />-->
+        <!--</p:column>-->
+        <!--</p:dataList>-->
+
+        <!--<p:dataList value="#{searchPhieuXH.setList()}">-->
+        <!--<p:column headerText="Tổng số lượng hàng đã xuất đi:" value="#{searchPhieuXH.setList()}">-->
+        <!--<h:outputText value="#{searchPhieuXH.phieuXH.sumSLX}" />-->
+        <!--</p:column>-->
+        <!--</p:dataList>-->

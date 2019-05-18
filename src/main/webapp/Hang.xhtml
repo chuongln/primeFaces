@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    <link href="css.css" rel="stylesheet" type="text/css" />
+
+</h:head>
+<h:body>
+<div id="fixNav">
+    <ul>
+        <li><a href="index.xhtml">Trang Chủ</a></li>
+        <li><a href="Hang.xhtml">Kho Hàng</a></li>
+        <li><a href="xuatHang.xhtml">Đơn Hàng Xuất </a></li>
+        <li><a href="nhapHang.xhtml">Đơn Hàng Nhập</a></li>
+        <li><a href="thongKe.xhtml">Thống Kê Kho Hàng </a></li>
+    </ul>
+</div>
+    <br> </br>
+    <h:form id="search1">
+        <p:panel id="panel" header="Search" style="margin-bottom:10px;">
+            <p:messages id="msg"  showDetail="true"
+                        autoUpdate="true" closable="true" />
+            <h:panelGrid columns="10" cellpadding="6">
+                <h:outputLabel for="txt1" value="Mã Hàng:" />
+                <p:inputText id="txt1" value="#{searchSanPham.sanPham.maSP}" />
+                <h:outputLabel for="txt2" value="Tên Hàng:" />
+                <p:inputText id="txt2" value="#{searchSanPham.sanPham.tenSP}"/>
+                <h:outputLabel for="txt3" value="Giá Hàng:" />
+                <p:inputText id="txt3" value="#{searchSanPham.sanPham.gia}">
+                    <p:keyFilter regEx="/[\d\-\.]/"/>
+                </p:inputText>
+                <h:outputLabel for="loaisp" value="Loại SP:" />
+                <p:inputText id="loaisp" value="#{searchSanPham.sanPham.loaiSP}"/>
+                <p:commandButton update="@([id$=show])" process="panel" actionListener="#{searchSanPham.setList()}"  value="Tìm kiếm" />
+            </h:panelGrid>
+        </p:panel>
+        <p:commandButton value="Thêm mới" icon="pi-star"  oncomplete="PF('dlg').show()" />
+
+        <!--<p:dialog  header="Search" widgetVar="search"   showEffect="fold" hideEffect="fold" dynamic="true">-->
+        <p:dataTable id="show" row="5"
+                     paginator="true"
+                     paginatorTemplate="{CurrentPageReport}  {PageLinks} {RowsPerPageDropdown}"
+                     rowsPerPageTemplate="5,10,15" paginatorPosition="bottom"
+                     var="sanPham" value="#{searchSanPham.setList()}" emptyMessage="Không Tồn Tại Bản Ghi">
+            <p:column headerText="Mã Sản Phẩm">
+                <h:outputText value="#{sanPham.maSP}" />
+            </p:column>
+
+            <p:column headerText="Tên Sản Phẩm">
+                <h:outputText value="#{sanPham.tenSP}" />
+            </p:column>
+            <p:column headerText="Loại Sản Phẩm">
+                <h:outputText value="#{sanPham.loaiSP}" />
+            </p:column>
+
+            <p:column headerText="Giá">
+                <h:outputText value="#{sanPham.gia}" />
+            </p:column>
+
+            <p:column headerText="Số Lượng">
+                <h:outputText value="#{sanPham.soLuong}" />
+            </p:column>
+            <p:column headerText="Hãng Sản Xuất ">
+                <h:outputText value="#{sanPham.hangSX}" />
+            </p:column>
+            <p:column headerText="Tuỳ Chỉnh">
+                <p:commandButton value="Edit " process="@this" actionListener="#{editSP.updateHang(sanPham)}" update="SuaSP" oncomplete="PF('dlg1').show()" />
+                <p:commandButton value="Delete" process="@this"  actionListener="#{deleleSP.updateHang(sanPham)}" update="XoaSP" oncomplete="PF('dlg2').show()" />
+
+
+                <!--<p:commandButton value="Nhập Hàng" process="@this"  actionListener="#{deleleHang.updateHang(hang)}" update="NhapHang" oncomplete="PF('nhapHang').show()" />-->
+                <!--<p:commandButton value="Xuất Hàng" process="@this"  actionListener="#{deleleHang.updateHang(hang)}" update="XoatHang" oncomplete="PF('xuatHang').show()" />-->
+            </p:column>
+
+        </p:dataTable>
+        <!--</p:dialog>-->
+        <!--<p:outputLabel id="sum" value="#{hang.sum}"/>-->
+
+
+    </h:form>
+    <h:form id ="SuaSP" >
+        <p:dialog header="Sửa Sản Phẩm" widgetVar="dlg1"  width="550px" showEffect="fold" hideEffect="fold" dynamic="true">
+            <h:panelGrid  columns="2" cellpadding="5">
+                <p:outputLabel value="Mã Hàng Cần Sửa:" for="mh1" />
+                <p:outputLabel id= "mh1" value=" Mã #{editSP.sanPham.maSP}" />
+                <p:outputLabel value="Tên Hàng Mới:" for="tenmoi1" />
+                <p:autoComplete id="tenmoi1" value="#{editSP.sanPham.tenSP}" />
+                <h:outputLabel for="lsp" value="Loại Sản Phẩm: " />
+                <p:inputText id="lsp" value="#{editSP.sanPham.loaiSP}" />
+                <h:outputLabel for="g1" value="Giá Cần Sửa: " />
+                <p:inputText id="g1" value="#{editSP.sanPham.gia}" />
+                <h:outputLabel for="hsx" value="Hãng Sản Xuất: " />
+                <p:inputText id="hsx" value="#{editSP.sanPham.hangSX}" />
+                <p:commandButton value="Cập Nhật" actionListener="#{editSP.editSP()}" process="SuaSP" update="@([id$=show])" onclick="PF('dlg1').hide()"  icon="pi pi-check"  />
+                <p:commandButton value="Huỷ Bỏ "  onclick="PF('dlg1').hide()"/>
+            </h:panelGrid>
+        </p:dialog>
+    </h:form>
+
+
+    <h:form id ="XoaSP">
+        <p:dialog  header="Xoá" widgetVar="dlg2"   showEffect="fold" hideEffect="fold" dynamic="true">
+            <h:panelGrid  columns="2" cellpadding="5">
+                <p:outputLabel value="Bạn Có Muốn Xoá Hàng Này Hay Không:" for="xh" />
+                <p:outputLabel id= "xh" value="Mã #{deleleSP.sanPham.maSP}" />
+                <p:commandButton value="Xoá" actionListener="#{deleleSP.deleteSP()}" process="XoaSP" update="@([id$=show])" onclick="PF('dlg2').hide()"  icon="pi pi-check"  />
+                <p:commandButton value="Huỷ Bỏ "  onclick="PF('dlg2').hide()"/>
+            </h:panelGrid>
+        </p:dialog>
+    </h:form>
+
+
+    <h:form id ="ThemSP">
+        <p:dialog  header="Thêm Sản Phẩm Mới" widgetVar="dlg"   showEffect="fold" hideEffect="fold" dynamic="true">
+            <h:panelGrid  id="display" columns="2" cellpadding="4">
+                <p:outputLabel value="Mã Sản Phẩm:" for="acSimple" />
+                <p:inputText id= "acSimple" value="#{addSP.sanPham.maSP}" />
+                <p:outputLabel value="Tên Sản Phẩm:" for="ten" />
+                <p:inputText id="ten" value="#{addSP.sanPham.tenSP}"  />
+                <p:outputLabel for="basic" value="Loại Sản Phẩm: " />
+                <p:inputText id="basic" value="#{addSP.sanPham.loaiSP}"/>
+                <p:outputLabel for="basic1" value="Giá: " />
+                <p:inputText id="basic1" value="#{addSP.sanPham.gia}"/>
+                <p:outputLabel for="basic2" value="Hãng Sản Xuất: " />
+                <p:inputText id="basic2" value="#{addSP.sanPham.hangSX}"/>
+                <p:commandButton value="Lưu" actionListener="#{addSP.addSP()}" update="@([id$=show]),@([id$=display),@([id$=msg])" onclick="PF('dlg').hide()" process="ThemSP"  icon="pi pi-check"  />
+                <p:commandButton value="Huỷ Bỏ "  onclick="PF('dlg').hide()"/>
+            </h:panelGrid>
+        </p:dialog>
+    </h:form>
+</h:body>
+</html>
